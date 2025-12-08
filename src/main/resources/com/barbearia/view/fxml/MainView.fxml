@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.barbearia.controller.MainController"
+      prefHeight="700.0" prefWidth="1000.0"
+      style="-fx-background-color: linear-gradient(to bottom right, #2C3E50, #4A235A);">
+
+    <!-- Cabeçalho -->
+    <BorderPane prefHeight="120.0">
+        <center>
+            <VBox alignment="CENTER" spacing="10">
+                <Label text="Barbearia Style"
+                       style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold; -fx-font-family: 'Arial Black';">
+                    <graphic>
+                        <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
+                            <Image url="@../images/barber-icon.png" />
+                        </ImageView>
+                    </graphic>
+                </Label>
+                <Label text="Sistema de Gerenciamento Completo"
+                       style="-fx-text-fill: #FFC900; -fx-font-size: 18px;"/>
+            </VBox>
+        </center>
+    </BorderPane>
+
+    <Separator style="-fx-background-color: #FFC900;"/>
+
+    <!-- Conteúdo Principal -->
+    <BorderPane VBox.vgrow="ALWAYS">
+        <center>
+            <GridPane hgap="20" vgap="20" alignment="CENTER">
+                <columnConstraints>
+                    <ColumnConstraints prefWidth="300"/>
+                    <ColumnConstraints prefWidth="300"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints prefHeight="200"/>
+                    <RowConstraints prefHeight="200"/>
+                </rowConstraints>
+
+                <!-- Botão Clientes -->
+                <Button fx:id="btnClientes" text="👥 CLIENTES"
+                        onAction="#handleClientes"
+                        style="-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-background-radius: 15;"
+                        GridPane.rowIndex="0" GridPane.columnIndex="0">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <tooltip>
+                        <Tooltip text="Gerenciar cadastro de clientes"/>
+                    </tooltip>
+                </Button>
+
+                <!-- Botão Profissionais -->
+                <Button fx:id="btnProfissionais" text="✂️ PROFISSIONAIS"
+                        onAction="#handleProfissionais"
+                        style="-fx-background-color: #2ECC71; -fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-background-radius: 15;"
+                        GridPane.rowIndex="0" GridPane.columnIndex="1">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <tooltip>
+                        <Tooltip text="Gerenciar profissionais da barbearia"/>
+                    </tooltip>
+                </Button>
+
+                <!-- Botão Serviços -->
+                <Button fx:id="btnServicos" text="💈 SERVIÇOS"
+                        onAction="#handleServicos"
+                        style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-background-radius: 15;"
+                        GridPane.rowIndex="1" GridPane.columnIndex="0">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <tooltip>
+                        <Tooltip text="Gerenciar serviços oferecidos"/>
+                    </tooltip>
+                </Button>
+
+                <!-- Botão Agendamentos -->
+                <Button fx:id="btnAgendamentos" text="📅 AGENDAMENTOS"
+                        onAction="#handleAgendamentos"
+                        style="-fx-background-color: #F39C12; -fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-background-radius: 15;"
+                        GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <tooltip>
+                        <Tooltip text="Agendar e gerenciar horários"/>
+                    </tooltip>
+                </Button>
+            </GridPane>
+        </center>
+
+        <bottom>
+            <HBox spacing="20" alignment="CENTER" padding="20">
+                <Button fx:id="btnRelatorios" text="📊 RELATÓRIOS"
+                        onAction="#handleRelatorios"
+                        style="-fx-background-color: #9B59B6; -fx-text-fill: white; -fx-font-weight: bold;">
+                    <tooltip>
+                        <Tooltip text="Visualizar relatórios e estatísticas"/>
+                    </tooltip>
+                </Button>
+
+                <Button fx:id="btnSobre" text="ℹ️ SOBRE"
+                        onAction="#handleSobre"
+                        style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold;">
+                    <tooltip>
+                        <Tooltip text="Informações sobre o sistema"/>
+                    </tooltip>
+                </Button>
+
+                <Button fx:id="btnSair" text="🚪 SAIR"
+                        onAction="#handleSair"
+                        style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold;">
+                    <tooltip>
+                        <Tooltip text="Sair do sistema"/>
+                    </tooltip>
+                </Button>
+            </HBox>
+        </bottom>
+    </BorderPane>
+
+    <!-- Rodapé -->
+    <BorderPane style="-fx-background-color: #1C2833;">
+        <center>
+            <Label text="© 2024 Barbearia Style - Desenvolvido para a disciplina de POO - UFRN"
+                   style="-fx-text-fill: #BDC3C7; -fx-font-size: 12px;"
+                   padding="10"/>
+        </center>
+    </BorderPane>
+
+</VBox>
