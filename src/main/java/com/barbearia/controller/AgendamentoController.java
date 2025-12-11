@@ -6,18 +6,20 @@ import com.barbearia.model.service.ClienteService;
 import com.barbearia.model.service.ProfissionalService;
 import com.barbearia.model.service.ServicoService;
 import com.barbearia.util.DateUtils;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage; // IMPORT ADICIONADO
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
+import java.util.List; // Importação que estava faltando
 import java.util.ResourceBundle;
 
 public class AgendamentoController implements Initializable {
@@ -84,34 +86,38 @@ public class AgendamentoController implements Initializable {
 
     private void configurarTabela() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+
         colCliente.setCellValueFactory(cellData -> {
             Cliente cliente = cellData.getValue().getCliente();
-            return new javafx.beans.property.SimpleStringProperty(
-                    cliente != null ? cliente.getNome() : ""
-            );
+            return new SimpleStringProperty(cliente != null ? cliente.getNome() : "");
         });
+
         colProfissional.setCellValueFactory(cellData -> {
             Profissional profissional = cellData.getValue().getProfissional();
-            return new javafx.beans.property.SimpleStringProperty(
-                    profissional != null ? profissional.getNome() : ""
-            );
+            return new SimpleStringProperty(profissional != null ? profissional.getNome() : "");
         });
+
         colData.setCellValueFactory(cellData -> {
             LocalDate data = cellData.getValue().getData();
-            return new javafx.beans.property.SimpleStringProperty(
-                    DateUtils.formatarData(data)
-            );
+            return new SimpleStringProperty(DateUtils.formatarData(data));
         });
+
         colHora.setCellValueFactory(cellData -> {
             LocalTime hora = cellData.getValue().getHora();
-            return new javafx.beans.property.SimpleStringProperty(
-                    DateUtils.formatarHora(hora)
-            );
+            return new SimpleStringProperty(DateUtils.formatarHora(hora));
         });
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        // Conversão segura de Enum para String
+        colStatus.setCellValueFactory(cellData -> {
+            if (cellData.getValue().getStatus() != null) {
+                return new SimpleStringProperty(cellData.getValue().getStatus().toString());
+            }
+            return new SimpleStringProperty("");
+        });
+
         colValor.setCellValueFactory(cellData -> {
             Double valor = cellData.getValue().calcularValorTotal();
-            return new javafx.beans.property.SimpleObjectProperty<>(valor);
+            return new SimpleObjectProperty<>(valor);
         });
 
         colValor.setCellFactory(col -> new TableCell<Agendamento, Double>() {
@@ -176,7 +182,7 @@ public class AgendamentoController implements Initializable {
             @Override
             protected void updateItem(Cliente item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
+                if (empty || item == null) { // Verificação crucial contra NPE
                     setText(null);
                 } else {
                     setText(item.getNome() + " - " + item.getTelefone());
@@ -187,7 +193,7 @@ public class AgendamentoController implements Initializable {
             @Override
             protected void updateItem(Cliente item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
+                if (empty || item == null) { // Verificação crucial contra NPE
                     setText(null);
                 } else {
                     setText(item.getNome());
@@ -200,7 +206,7 @@ public class AgendamentoController implements Initializable {
             @Override
             protected void updateItem(Profissional item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
+                if (empty || item == null) { // Verificação crucial contra NPE
                     setText(null);
                 } else {
                     setText(item.getNome() + " - " + item.getEspecialidade());
@@ -211,7 +217,7 @@ public class AgendamentoController implements Initializable {
             @Override
             protected void updateItem(Profissional item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
+                if (empty || item == null) { // Verificação crucial contra NPE
                     setText(null);
                 } else {
                     setText(item.getNome());
@@ -276,8 +282,8 @@ public class AgendamentoController implements Initializable {
         });
 
         LocalTime agora = LocalTime.now();
+        // Correção de 'agro' para 'agora'
         LocalTime proximoHorario = horariosObservable.stream()
-                // CORREÇÃO DE "AGRO" PARA "AGORA"
                 .filter(h -> h.isAfter(agora) || h.equals(agora))
                 .findFirst()
                 .orElse(horariosObservable.get(0));
@@ -306,6 +312,7 @@ public class AgendamentoController implements Initializable {
         } catch (IllegalArgumentException e) {
             mostrarErro("Erro de validação", e.getMessage());
         } catch (Exception e) {
+            e.printStackTrace();
             mostrarErro("Erro ao salvar agendamento", e.getMessage());
         }
     }
@@ -579,7 +586,9 @@ public class AgendamentoController implements Initializable {
     private void atualizarStatus() {
         int total = agendamentosObservable.size();
         int pendentes = agendamentoService.contarAgendamentosPendentes();
-        lblTotalAgendamentos.setText(String.valueOf(total));
+        if (lblTotalAgendamentos != null) {
+            lblTotalAgendamentos.setText(String.valueOf(total));
+        }
         lblStatus.setText("Total: " + total + " | Pendentes: " + pendentes);
     }
 

@@ -1,6 +1,5 @@
 package com.barbearia.model.dao;
 
-import com.barbearia.util.LogUtils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,12 +8,12 @@ public class ConexaoBD {
 
     private static Connection connection;
 
-    // Nome mantido como 'getConexao' para não quebrar seus DAOs
+    // Método getConexao (em português para manter compatibilidade)
     public static Connection getConexao() {
         try {
-            // Verifica se é nulo OU se está fechada
+            // Verifica se é nulo OU se a conexão caiu/fechou
             if (connection == null || connection.isClosed()) {
-                // Adicionado DB_CLOSE_DELAY=-1
+                // DB_CLOSE_DELAY=-1 é obrigatório para o H2 não apagar os dados sozinho
                 String url = "jdbc:h2:./database/barbearia;DB_CLOSE_DELAY=-1";
                 String user = "sa";
                 String password = "";
@@ -22,20 +21,17 @@ public class ConexaoBD {
                 connection = DriverManager.getConnection(url, user, password);
             }
         } catch (SQLException e) {
-            LogUtils.gravarErro("ERRO DE CONEXÃO COM BANCO DE DADOS", e);
             throw new RuntimeException("Erro ao conectar ao banco de dados: " + e.getMessage());
         }
         return connection;
     }
 
-    // Nome mantido como 'fecharConexao'
     public static void fecharConexao() {
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
         } catch (SQLException e) {
-            LogUtils.gravarErro("ERRO AO FECHAR CONEXÃO", e);
             e.printStackTrace();
         }
     }
