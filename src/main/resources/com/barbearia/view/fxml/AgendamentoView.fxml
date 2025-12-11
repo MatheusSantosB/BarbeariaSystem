@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.barbearia.controller.AgendamentoController"
+            prefHeight="700.0" prefWidth="1200.0">
+
+    <top>
+        <VBox style="-fx-background-color: #F39C12;">
+            <HBox alignment="CENTER_LEFT" spacing="10" padding="15">
+                <Label text="📅" style="-fx-font-size: 24px;"/>
+                <Label text="Gerenciamento de Agendamentos"
+                       style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.4">
+
+            <!-- Painel Esquerdo - Formulário -->
+            <VBox spacing="15" padding="20" style="-fx-background-color: #ECF0F1;">
+                <Label text="Novo Agendamento"
+                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;"/>
+
+                <GridPane hgap="10" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="120"/>
+                        <ColumnConstraints prefWidth="300"/>
+                    </columnConstraints>
+
+                    <Label text="Cliente:*" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="cbCliente" promptText="Selecione um cliente"
+                              prefWidth="300" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Profissional:*" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="cbProfissional" promptText="Selecione um profissional"
+                              prefWidth="300" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="Data:*" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <HBox spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                        <DatePicker fx:id="dtData" prefWidth="200"/>
+                        <Label text="Hoje" style="-fx-text-fill: #3498DB; -fx-cursor: hand;"
+                               onMouseClicked="#handleBuscarHoje"/>
+                    </HBox>
+
+                    <Label text="Hora:*" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="cbHora" promptText="Selecione horário"
+                              prefWidth="150" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <Label text="Serviços:*" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <VBox spacing="5" GridPane.rowIndex="4" GridPane.columnIndex="1">
+                        <ListView fx:id="listServicos" prefHeight="150"/>
+                        <HBox spacing="5">
+                            <Label fx:id="lblValorTotal" text="R$ 0,00"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #27AE60;"/>
+                            <Label text="•"/>
+                            <Label fx:id="lblDuracaoTotal" text="0 min"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #3498DB;"/>
+                            <Button text="📊 CALCULAR" onAction="#handleCalcularValor"
+                                    style="-fx-background-color: #9B59B6; -fx-text-fill: white; -fx-font-size: 10px;"/>
+                        </HBox>
+                    </VBox>
+
+                    <Label text="Observações:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                    <TextArea fx:id="txtObservacoes" promptText="Observações adicionais..."
+                              prefRowCount="3" wrapText="true"
+                              GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <Separator/>
+
+                <HBox spacing="10" alignment="CENTER">
+                    <Button fx:id="btnSalvar" text="💾 SALVAR"
+                            onAction="#handleSalvar"
+                            style="-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 100;"/>
+                    <Button fx:id="btnNovo" text="🆕 NOVO"
+                            onAction="#handleNovo"
+                            style="-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 100;"/>
+                    <Button fx:id="btnCancelar" text="❌ CANCELAR"
+                            onAction="#handleCancelar"
+                            style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 100;"/>
+                </HBox>
+
+                <HBox spacing="10" alignment="CENTER">
+                    <Button fx:id="btnConfirmar" text="✅ CONFIRMAR"
+                            onAction="#handleConfirmar"
+                            style="-fx-background-color: #2ECC71; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 120;"/>
+                    <Button fx:id="btnFinalizar" text="🏁 FINALIZAR"
+                            onAction="#handleFinalizar"
+                            style="-fx-background-color: #9B59B6; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 120;"/>
+                </HBox>
+
+                <Separator/>
+
+                <Label text="Buscar Agendamentos"
+                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;"/>
+                <HBox spacing="10">
+                    <TextField fx:id="txtBusca" promptText="Nome do cliente..." prefWidth="200"/>
+                    <Button fx:id="btnBuscar" text="🔍 BUSCAR" onAction="#handleBuscar"
+                            style="-fx-background-color: #F39C12; -fx-text-fill: white;"/>
+                    <Button fx:id="btnBuscarPeriodo" text="📅 POR PERÍODO" onAction="#handleBuscarPorPeriodo"
+                            style="-fx-background-color: #3498DB; -fx-text-fill: white;"/>
+                    <Button fx:id="btnLimparBusca" text="🧹 LIMPAR" onAction="#handleLimparBusca"
+                            style="-fx-background-color: #95A5A6; -fx-text-fill: white;"/>
+                </HBox>
+
+                <VBox spacing="5" padding="10" style="-fx-background-color: #D5DBDB; -fx-background-radius: 5;">
+                    <Label text="📊 Estatísticas:" style="-fx-font-weight: bold;"/>
+                    <Label fx:id="lblTotalAgendamentos" text="Total: 0" style="-fx-text-fill: #2C3E50;"/>
+                    <Label fx:id="lblStatus" text="Status: Pronto" style="-fx-text-fill: #2C3E50;"/>
+                </VBox>
+
+                <Button fx:id="btnRelatorio" text="📈 RELATÓRIO" onAction="#handleRelatorioFaturamento"
+                        style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            </VBox>
+
+            <!-- Painel Direito - Tabela -->
+            <VBox spacing="10" padding="20">
+                <Label text="Agendamentos Marcados"
+                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;"/>
+
+                <TableView fx:id="tabelaAgendamentos" prefHeight="500">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="colCliente" text="Cliente" prefWidth="150"/>
+                        <TableColumn fx:id="colProfissional" text="Profissional" prefWidth="150"/>
+                        <TableColumn fx:id="colData" text="Data" prefWidth="100"/>
+                        <TableColumn fx:id="colHora" text="Hora" prefWidth="80"/>
+                        <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
+                        <TableColumn fx:id="colValor" text="Valor" prefWidth="100"/>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button fx:id="btnVoltar" text="↩️ VOLTAR" onAction="#handleVoltar"
+                            style="-fx-background-color: #7F8C8D; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+        </SplitPane>
+    </center>
+
+</BorderPane>
