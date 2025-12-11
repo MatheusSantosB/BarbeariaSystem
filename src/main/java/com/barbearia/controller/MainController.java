@@ -66,7 +66,7 @@ public class MainController {
         sobre.setHeaderText("Barbearia Style - Sistema de Gerenciamento");
         sobre.setContentText("""
             Versão: 1.0.0
-            Desenvolvido por: Matheus Santos
+            Desenvolvido por: Matheus Santos & Ludson Araujo
             Disciplina: Programação Orientada a Objetos
             Professor: Josenalde Oliveira
             UFRN - Escola Agrícola de Jundiaí
