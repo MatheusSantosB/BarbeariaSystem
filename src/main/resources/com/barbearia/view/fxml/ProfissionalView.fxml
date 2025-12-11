@@ -12,7 +12,10 @@
 
     <top>
         <VBox style="-fx-background-color: #2ECC71;">
-            <HBox alignment="CENTER_LEFT" spacing="10" padding="15">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15"/>
+                </padding>
                 <Label text="✂️" style="-fx-font-size: 24px;"/>
                 <Label text="Gerenciamento de Profissionais"
                        style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
@@ -22,9 +25,10 @@
 
     <center>
         <SplitPane dividerPositions="0.35">
-
-            <!-- Painel Esquerdo - Formulário -->
-            <VBox spacing="15" padding="20" style="-fx-background-color: #ECF0F1;">
+            <VBox spacing="15" style="-fx-background-color: #ECF0F1;">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
                 <Label text="Cadastro de Profissional"
                        style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;"/>
 
@@ -39,7 +43,7 @@
                                GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                     <Label text="Especialidade:*" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                    <TextField fx:id="txtEspecialidade" promptText="Ex: Cabelo, Barba, Completo"
+                    <TextField fx:id="txtEspecialidade" promptText="Ex: Barba, Cabelo"
                                GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                     <Label text="Telefone:*" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
@@ -47,77 +51,65 @@
                                GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
                     <Label text="Status:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                    <HBox GridPane.rowIndex="3" GridPane.columnIndex="1" spacing="10">
-                        <CheckBox fx:id="chkAtivo" text="Ativo" selected="true"/>
-                    </HBox>
+                    <CheckBox fx:id="chkAtivo" text="Ativo" selected="true"
+                              GridPane.rowIndex="3" GridPane.columnIndex="1"/>
                 </GridPane>
 
                 <Separator/>
 
                 <HBox spacing="10" alignment="CENTER">
-                    <Button fx:id="btnSalvar" text="💾 SALVAR"
-                            onAction="#handleSalvar"
-                            style="-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 100;"/>
-                    <Button fx:id="btnNovo" text="🆕 NOVO"
-                            onAction="#handleNovo"
-                            style="-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 100;"/>
-                    <Button fx:id="btnExcluir" text="🗑️ EXCLUIR"
-                            onAction="#handleExcluir"
-                            style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 100;"/>
+                    <Button fx:id="btnSalvar" text="💾 SALVAR" onAction="#handleSalvar"
+                            style="-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnNovo" text="🆕 NOVO" onAction="#handleNovo"
+                            style="-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnExcluir" text="🗑️ EXCLUIR" onAction="#handleExcluir"
+                            style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold;"/>
                 </HBox>
 
                 <HBox spacing="10" alignment="CENTER">
-                    <Button fx:id="btnAtivar" text="✅ ATIVAR"
-                            onAction="#handleAtivar"
-                            style="-fx-background-color: #2ECC71; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 100;"/>
-                    <Button fx:id="btnDesativar" text="⛔ DESATIVAR"
-                            onAction="#handleDesativar"
-                            style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 100;"/>
+                    <Button text="✅ ATIVAR" onAction="#handleAtivar"
+                            style="-fx-background-color: #2ECC71; -fx-text-fill: white;"/>
+                    <Button text="🚫 DESATIVAR" onAction="#handleDesativar"
+                            style="-fx-background-color: #E67E22; -fx-text-fill: white;"/>
                 </HBox>
 
                 <Separator/>
 
-                <Label text="Buscar Profissional"
-                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;"/>
+                <Label text="Buscar Profissional" style="-fx-font-weight: bold;"/>
                 <HBox spacing="10">
                     <TextField fx:id="txtBusca" promptText="Digite o nome..." prefWidth="200"/>
-                    <Button fx:id="btnBuscar" text="🔍 BUSCAR" onAction="#handleBuscar"
-                            style="-fx-background-color: #F39C12; -fx-text-fill: white;"/>
-                    <Button fx:id="btnBuscarAtivos" text="✅ ATIVOS" onAction="#handleBuscarAtivos"
-                            style="-fx-background-color: #2ECC71; -fx-text-fill: white;"/>
-                    <Button fx:id="btnLimparBusca" text="🧹 LIMPAR" onAction="#handleLimparBusca"
-                            style="-fx-background-color: #95A5A6; -fx-text-fill: white;"/>
+                    <Button text="🔍" onAction="#handleBuscar"/>
+                    <Button text="👁️ Ativos" onAction="#handleBuscarAtivos"/>
+                    <Button text="🧹" onAction="#handleLimparBusca"/>
                 </HBox>
 
-                <VBox spacing="5" padding="10" style="-fx-background-color: #D5DBDB; -fx-background-radius: 5;">
-                    <Label text="📊 Estatísticas:" style="-fx-font-weight: bold;"/>
-                    <Label fx:id="lblTotalProfissionais" text="Total: 0" style="-fx-text-fill: #2C3E50;"/>
-                    <Label fx:id="lblStatus" text="Status: Pronto" style="-fx-text-fill: #2C3E50;"/>
+                <VBox spacing="5" style="-fx-background-color: #D5DBDB; -fx-background-radius: 5;">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Label fx:id="lblTotalProfissionais" text="Total: 0"/>
+                    <Label fx:id="lblStatus" text="Status: Pronto"/>
                 </VBox>
             </VBox>
 
-            <!-- Painel Direito - Tabela -->
-            <VBox spacing="10" padding="20">
-                <Label text="Profissionais Cadastrados"
-                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;"/>
-
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                <Label text="Profissionais Cadastrados" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
                 <TableView fx:id="tabelaProfissionais" prefHeight="400">
                     <columns>
                         <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
                         <TableColumn fx:id="colNome" text="Nome" prefWidth="200"/>
                         <TableColumn fx:id="colEspecialidade" text="Especialidade" prefWidth="150"/>
                         <TableColumn fx:id="colTelefone" text="Telefone" prefWidth="150"/>
-                        <TableColumn fx:id="colAtivo" text="Status" prefWidth="100"/>
+                        <TableColumn fx:id="colAtivo" text="Status" prefWidth="80"/>
                     </columns>
                 </TableView>
-
-                <HBox spacing="10" alignment="CENTER_RIGHT">
-                    <Button fx:id="btnVoltar" text="↩️ VOLTAR" onAction="#handleVoltar"
-                            style="-fx-background-color: #7F8C8D; -fx-text-fill: white;"/>
+                <HBox alignment="CENTER_RIGHT">
+                    <Button text="↩️ VOLTAR" onAction="#handleVoltar"/>
                 </HBox>
             </VBox>
-
         </SplitPane>
     </center>
-
 </BorderPane>

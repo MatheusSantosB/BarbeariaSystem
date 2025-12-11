@@ -12,7 +12,10 @@
 
     <top>
         <VBox style="-fx-background-color: #3498DB;">
-            <HBox alignment="CENTER_LEFT" spacing="10" padding="15">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15"/>
+                </padding>
                 <Label text="👥" style="-fx-font-size: 24px;"/>
                 <Label text="Gerenciamento de Clientes"
                        style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
@@ -23,8 +26,10 @@
     <center>
         <SplitPane dividerPositions="0.35">
 
-            <!-- Painel Esquerdo - Formulário -->
-            <VBox spacing="15" padding="20" style="-fx-background-color: #ECF0F1;">
+            <VBox spacing="15" style="-fx-background-color: #ECF0F1;">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
                 <Label text="Cadastro de Cliente"
                        style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;"/>
 
@@ -76,15 +81,20 @@
                             style="-fx-background-color: #95A5A6; -fx-text-fill: white;"/>
                 </HBox>
 
-                <VBox spacing="5" padding="10" style="-fx-background-color: #D5DBDB; -fx-background-radius: 5;">
+                <VBox spacing="5" style="-fx-background-color: #D5DBDB; -fx-background-radius: 5;">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
                     <Label text="📊 Estatísticas:" style="-fx-font-weight: bold;"/>
                     <Label fx:id="lblTotalClientes" text="Total: 0" style="-fx-text-fill: #2C3E50;"/>
                     <Label fx:id="lblStatus" text="Status: Pronto" style="-fx-text-fill: #2C3E50;"/>
                 </VBox>
             </VBox>
 
-            <!-- Painel Direito - Tabela -->
-            <VBox spacing="10" padding="20">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
                 <Label text="Clientes Cadastrados"
                        style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;"/>
 

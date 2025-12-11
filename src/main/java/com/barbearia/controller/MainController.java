@@ -1,5 +1,6 @@
 package com.barbearia.controller;
 
+import com.barbearia.util.LogUtils; // Importante
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,8 +17,9 @@ public class MainController {
     private void handleClientes() {
         try {
             carregarTela("/com/barbearia/view/fxml/ClienteView.fxml", "Gerenciamento de Clientes");
-        } catch (IOException e) {
-            mostrarErro("Erro ao carregar tela de clientes: " + e.getMessage());
+        } catch (Exception e) {
+            LogUtils.gravarErro("Erro ao abrir tela de Clientes", e);
+            mostrarErro("Erro ao carregar tela de clientes. Veja o log para detalhes.");
         }
     }
 
@@ -25,8 +27,9 @@ public class MainController {
     private void handleProfissionais() {
         try {
             carregarTela("/com/barbearia/view/fxml/ProfissionalView.fxml", "Gerenciamento de Profissionais");
-        } catch (IOException e) {
-            mostrarErro("Erro ao carregar tela de profissionais: " + e.getMessage());
+        } catch (Exception e) {
+            LogUtils.gravarErro("Erro ao abrir tela de Profissionais", e);
+            mostrarErro("Erro ao carregar tela de profissionais. Veja o log para detalhes.");
         }
     }
 
@@ -34,8 +37,9 @@ public class MainController {
     private void handleServicos() {
         try {
             carregarTela("/com/barbearia/view/fxml/ServicoView.fxml", "Gerenciamento de Serviços");
-        } catch (IOException e) {
-            mostrarErro("Erro ao carregar tela de serviços: " + e.getMessage());
+        } catch (Exception e) {
+            LogUtils.gravarErro("Erro ao abrir tela de Serviços", e);
+            mostrarErro("Erro ao carregar tela de serviços. Veja o log para detalhes.");
         }
     }
 
@@ -43,8 +47,9 @@ public class MainController {
     private void handleAgendamentos() {
         try {
             carregarTela("/com/barbearia/view/fxml/AgendamentoView.fxml", "Gerenciamento de Agendamentos");
-        } catch (IOException e) {
-            mostrarErro("Erro ao carregar tela de agendamentos: " + e.getMessage());
+        } catch (Exception e) {
+            LogUtils.gravarErro("Erro ao abrir tela de Agendamentos", e);
+            mostrarErro("Erro ao carregar tela de agendamentos. Veja o log para detalhes.");
         }
     }
 
