@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage; // IMPORT ADICIONADO
+
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
@@ -63,7 +65,6 @@ public class ClienteController implements Initializable {
 
         tabelaClientes.setItems(clientesObservable);
 
-        // Seleção na tabela
         tabelaClientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     clienteSelecionado = newValue;
@@ -177,26 +178,22 @@ public class ClienteController implements Initializable {
 
     @FXML
     private void handleExportar() {
-        // Implementação simplificada
         mostrarInformacao("Exportar", "Funcionalidade de exportação em desenvolvimento.");
     }
 
     @FXML
     private void handleVoltar() {
-        // Fecha a janela atual
         Stage stage = (Stage) txtNome.getScene().getWindow();
         stage.close();
     }
 
     private boolean validarFormulario() {
-        // Nome
         if (!Validacao.isStringValida(txtNome.getText())) {
             mostrarErro("Validação", "Nome é obrigatório.");
             txtNome.requestFocus();
             return false;
         }
 
-        // Telefone
         if (!Validacao.isStringValida(txtTelefone.getText())) {
             mostrarErro("Validação", "Telefone é obrigatório.");
             txtTelefone.requestFocus();
@@ -209,7 +206,6 @@ public class ClienteController implements Initializable {
             return false;
         }
 
-        // Email (opcional, mas se preenchido, deve ser válido)
         if (!txtEmail.getText().trim().isEmpty() &&
                 !Validacao.isEmailValido(txtEmail.getText().trim())) {
             mostrarErro("Validação", "Email inválido.");

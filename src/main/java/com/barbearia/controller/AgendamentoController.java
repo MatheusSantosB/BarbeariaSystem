@@ -6,13 +6,14 @@ import com.barbearia.model.service.ClienteService;
 import com.barbearia.model.service.ProfissionalService;
 import com.barbearia.model.service.ServicoService;
 import com.barbearia.util.DateUtils;
-import com.barbearia.util.Validacao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage; // IMPORT ADICIONADO
+
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -58,13 +59,11 @@ public class AgendamentoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Inicializar serviços
         agendamentoService = new AgendamentoService();
         clienteService = new ClienteService();
         profissionalService = new ProfissionalService();
         servicoService = new ServicoService();
 
-        // Inicializar ObservableLists
         agendamentosObservable = FXCollections.observableArrayList();
         clientesObservable = FXCollections.observableArrayList();
         profissionaisObservable = FXCollections.observableArrayList();
@@ -73,14 +72,12 @@ public class AgendamentoController implements Initializable {
 
         agendamentoSelecionado = null;
 
-        // Configurar componentes
         configurarTabela();
         configurarCombos();
         configurarDatePicker();
         configurarListaServicos();
         configurarHorarios();
 
-        // Carregar dados
         carregarDados();
         atualizarStatus();
     }
@@ -117,7 +114,6 @@ public class AgendamentoController implements Initializable {
             return new javafx.beans.property.SimpleObjectProperty<>(valor);
         });
 
-        // Formatar coluna de valor
         colValor.setCellFactory(col -> new TableCell<Agendamento, Double>() {
             @Override
             protected void updateItem(Double item, boolean empty) {
@@ -130,7 +126,6 @@ public class AgendamentoController implements Initializable {
             }
         });
 
-        // Colorir status
         colStatus.setCellFactory(col -> new TableCell<Agendamento, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -165,7 +160,6 @@ public class AgendamentoController implements Initializable {
 
         tabelaAgendamentos.setItems(agendamentosObservable);
 
-        // Seleção na tabela
         tabelaAgendamentos.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     agendamentoSelecionado = newValue;
@@ -177,7 +171,6 @@ public class AgendamentoController implements Initializable {
     }
 
     private void configurarCombos() {
-        // Configurar ComboBox de Clientes
         cbCliente.setItems(clientesObservable);
         cbCliente.setCellFactory(param -> new ListCell<Cliente>() {
             @Override
@@ -202,7 +195,6 @@ public class AgendamentoController implements Initializable {
             }
         });
 
-        // Configurar ComboBox de Profissionais
         cbProfissional.setItems(profissionaisObservable);
         cbProfissional.setCellFactory(param -> new ListCell<Profissional>() {
             @Override
@@ -234,7 +226,6 @@ public class AgendamentoController implements Initializable {
             @Override
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
-                // Desabilitar datas passadas
                 if (date.isBefore(LocalDate.now())) {
                     setDisable(true);
                     setStyle("-fx-background-color: #ffc0cb;");
@@ -258,12 +249,10 @@ public class AgendamentoController implements Initializable {
             }
         });
 
-        // Permitir múltipla seleção
         listServicos.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     private void configurarHorarios() {
-        // Gerar horários comerciais (8h às 20h, de 30 em 30 minutos)
         LocalTime inicio = LocalTime.of(8, 0);
         LocalTime fim = LocalTime.of(20, 0);
 
@@ -286,10 +275,10 @@ public class AgendamentoController implements Initializable {
             }
         });
 
-        // Selecionar próximo horário disponível
         LocalTime agora = LocalTime.now();
         LocalTime proximoHorario = horariosObservable.stream()
-                .filter(h -> h.isAfter(agora) || h.equals(agro))
+                // CORREÇÃO DE "AGRO" PARA "AGORA"
+                .filter(h -> h.isAfter(agora) || h.equals(agora))
                 .findFirst()
                 .orElse(horariosObservable.get(0));
         cbHora.setValue(proximoHorario);
@@ -303,11 +292,9 @@ public class AgendamentoController implements Initializable {
             }
 
             if (agendamentoSelecionado != null) {
-                // Atualizar
                 atualizarAgendamentoExistente();
                 mostrarSucesso("Agendamento atualizado com sucesso!");
             } else {
-                // Novo
                 criarNovoAgendamento();
                 mostrarSucesso("Agendamento realizado com sucesso!");
             }
@@ -330,7 +317,6 @@ public class AgendamentoController implements Initializable {
         agendamentoSelecionado.setHora(cbHora.getValue());
         agendamentoSelecionado.setObservacoes(txtObservacoes.getText().trim());
 
-        // Atualizar serviços
         agendamentoSelecionado.getServicos().clear();
         agendamentoSelecionado.getServicos().addAll(
                 listServicos.getSelectionModel().getSelectedItems()
@@ -425,7 +411,6 @@ public class AgendamentoController implements Initializable {
         if (termo.isEmpty()) {
             carregarAgendamentos();
         } else {
-            // Buscar por nome do cliente
             List<Agendamento> resultados = agendamentoService.listarTodos().stream()
                     .filter(a -> a.getCliente().getNome().toLowerCase().contains(termo.toLowerCase()))
                     .toList();
@@ -443,7 +428,6 @@ public class AgendamentoController implements Initializable {
 
     @FXML
     private void handleBuscarPorPeriodo() {
-        // Implementação simplificada
         mostrarInformacao("Busca por período", "Funcionalidade em desenvolvimento.");
     }
 
@@ -461,7 +445,6 @@ public class AgendamentoController implements Initializable {
 
     @FXML
     private void handleVoltar() {
-        // Fecha a janela atual
         Stage stage = (Stage) cbCliente.getScene().getWindow();
         stage.close();
     }
@@ -504,35 +487,30 @@ public class AgendamentoController implements Initializable {
     }
 
     private boolean validarFormulario() {
-        // Cliente
         if (cbCliente.getValue() == null) {
             mostrarErro("Validação", "Selecione um cliente.");
             cbCliente.requestFocus();
             return false;
         }
 
-        // Profissional
         if (cbProfissional.getValue() == null) {
             mostrarErro("Validação", "Selecione um profissional.");
             cbProfissional.requestFocus();
             return false;
         }
 
-        // Data
         if (dtData.getValue() == null) {
             mostrarErro("Validação", "Selecione uma data.");
             dtData.requestFocus();
             return false;
         }
 
-        // Hora
         if (cbHora.getValue() == null) {
             mostrarErro("Validação", "Selecione um horário.");
             cbHora.requestFocus();
             return false;
         }
 
-        // Serviços
         if (listServicos.getSelectionModel().getSelectedItems().isEmpty()) {
             mostrarErro("Validação", "Selecione pelo menos um serviço.");
             listServicos.requestFocus();
@@ -543,16 +521,9 @@ public class AgendamentoController implements Initializable {
     }
 
     private void carregarDados() {
-        // Carregar clientes
         clientesObservable.setAll(clienteService.listarTodos());
-
-        // Carregar profissionais ativos
         profissionaisObservable.setAll(profissionalService.buscarAtivos());
-
-        // Carregar serviços
         servicosObservable.setAll(servicoService.listarTodos());
-
-        // Carregar agendamentos
         carregarAgendamentos();
     }
 
@@ -568,7 +539,6 @@ public class AgendamentoController implements Initializable {
         cbHora.setValue(agendamento.getHora());
         txtObservacoes.setText(agendamento.getObservacoes());
 
-        // Selecionar serviços
         listServicos.getSelectionModel().clearSelection();
         for (Servico servico : agendamento.getServicos()) {
             int index = servicosObservable.indexOf(servico);
@@ -584,7 +554,7 @@ public class AgendamentoController implements Initializable {
         cbCliente.setValue(null);
         cbProfissional.setValue(null);
         dtData.setValue(LocalDate.now());
-        configurarHorarios(); // Resetar horário
+        configurarHorarios();
         listServicos.getSelectionModel().clearSelection();
         txtObservacoes.clear();
         agendamentoSelecionado = null;

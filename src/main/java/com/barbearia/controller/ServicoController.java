@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage; // IMPORT ADICIONADO
+
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -59,7 +61,6 @@ public class ServicoController implements Initializable {
         colPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
         colDuracao.setCellValueFactory(new PropertyValueFactory<>("duracaoMinutos"));
 
-        // Formatar coluna de preço
         colPreco.setCellFactory(col -> new TableCell<Servico, Double>() {
             @Override
             protected void updateItem(Double item, boolean empty) {
@@ -72,7 +73,6 @@ public class ServicoController implements Initializable {
             }
         });
 
-        // Formatar coluna de duração
         colDuracao.setCellFactory(col -> new TableCell<Servico, Integer>() {
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -87,7 +87,6 @@ public class ServicoController implements Initializable {
 
         tabelaServicos.setItems(servicosObservable);
 
-        // Seleção na tabela
         tabelaServicos.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     servicoSelecionado = newValue;
@@ -99,14 +98,12 @@ public class ServicoController implements Initializable {
     }
 
     private void configurarFormatos() {
-        // Máscara para preço
         txtPreco.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*(\\.\\d{0,2})?")) {
                 txtPreco.setText(oldValue);
             }
         });
 
-        // Máscara para duração (apenas números)
         txtDuracao.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 txtDuracao.setText(oldValue);
@@ -123,7 +120,6 @@ public class ServicoController implements Initializable {
 
             Servico servico;
             if (servicoSelecionado != null) {
-                // Atualizar
                 servico = servicoSelecionado;
                 servico.setNome(txtNome.getText().trim());
                 servico.setDescricao(txtDescricao.getText().trim());
@@ -133,7 +129,6 @@ public class ServicoController implements Initializable {
                 servicoService.atualizarServico(servico);
                 mostrarSucesso("Serviço atualizado com sucesso!");
             } else {
-                // Novo
                 servico = new Servico(
                         txtNome.getText().trim(),
                         txtDescricao.getText().trim(),
@@ -261,7 +256,6 @@ public class ServicoController implements Initializable {
 
     @FXML
     private void handleVoltar() {
-        // Fecha a janela atual
         Stage stage = (Stage) txtNome.getScene().getWindow();
         stage.close();
     }
@@ -309,14 +303,12 @@ public class ServicoController implements Initializable {
     }
 
     private boolean validarFormulario() {
-        // Nome
         if (!Validacao.isStringValida(txtNome.getText())) {
             mostrarErro("Validação", "Nome do serviço é obrigatório.");
             txtNome.requestFocus();
             return false;
         }
 
-        // Preço
         if (!Validacao.isStringValida(txtPreco.getText())) {
             mostrarErro("Validação", "Preço é obrigatório.");
             txtPreco.requestFocus();
@@ -336,7 +328,6 @@ public class ServicoController implements Initializable {
             return false;
         }
 
-        // Duração
         if (!Validacao.isStringValida(txtDuracao.getText())) {
             mostrarErro("Validação", "Duração é obrigatória.");
             txtDuracao.requestFocus();

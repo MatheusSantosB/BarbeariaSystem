@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage; // IMPORT ADICIONADO
+
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -55,7 +57,6 @@ public class ProfissionalController implements Initializable {
 
         tabelaProfissionais.setItems(profissionaisObservable);
 
-        // Personalizar coluna de ativo
         colAtivo.setCellFactory(col -> new TableCell<Profissional, Boolean>() {
             @Override
             protected void updateItem(Boolean item, boolean empty) {
@@ -74,7 +75,6 @@ public class ProfissionalController implements Initializable {
             }
         });
 
-        // Seleção na tabela
         tabelaProfissionais.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     profissionalSelecionado = newValue;
@@ -104,11 +104,12 @@ public class ProfissionalController implements Initializable {
                 profissionalService.atualizarProfissional(profissional);
                 mostrarSucesso("Profissional atualizado com sucesso!");
             } else {
-                // Novo
+                // Novo - CORRIGIDO: Adicionado null para o campo email
                 profissional = new Profissional(
                         txtNome.getText().trim(),
                         txtEspecialidade.getText().trim(),
-                        txtTelefone.getText().trim()
+                        txtTelefone.getText().trim(),
+                        null // Email (não usado na tela, mas exigido pela herança de Pessoa)
                 );
                 profissional.setAtivo(chkAtivo.isSelected());
 
@@ -217,27 +218,23 @@ public class ProfissionalController implements Initializable {
 
     @FXML
     private void handleVoltar() {
-        // Fecha a janela atual
         Stage stage = (Stage) txtNome.getScene().getWindow();
         stage.close();
     }
 
     private boolean validarFormulario() {
-        // Nome
         if (!Validacao.isStringValida(txtNome.getText())) {
             mostrarErro("Validação", "Nome é obrigatório.");
             txtNome.requestFocus();
             return false;
         }
 
-        // Especialidade
         if (!Validacao.isStringValida(txtEspecialidade.getText())) {
             mostrarErro("Validação", "Especialidade é obrigatória.");
             txtEspecialidade.requestFocus();
             return false;
         }
 
-        // Telefone
         if (!Validacao.isStringValida(txtTelefone.getText())) {
             mostrarErro("Validação", "Telefone é obrigatório.");
             txtTelefone.requestFocus();
