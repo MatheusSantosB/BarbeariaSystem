@@ -132,10 +132,9 @@
     <!-- Rodapé -->
     <BorderPane style="-fx-background-color: #1C2833;">
         <center>
-            <Label text="© 2024 Barbearia Style - Desenvolvido para a disciplina de POO - UFRN"
+            <Label text="© 2024 Barbearia Style - Devs: Matheus dos Santos e Ludson Araújo - POO UFRN"
                    style="-fx-text-fill: #BDC3C7; -fx-font-size: 12px;"
                    padding="10"/>
         </center>
     </BorderPane>
-
 </VBox>
