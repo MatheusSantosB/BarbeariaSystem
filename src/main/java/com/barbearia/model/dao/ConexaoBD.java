@@ -5,36 +5,31 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexaoBD {
-    private static final String URL = "jdbc:h2:./database/barbearia;AUTO_SERVER=TRUE";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "";
 
-    private static Connection conexao;
-
-    private ConexaoBD() {}
+    private static Connection connection;
 
     public static Connection getConexao() {
-        if (conexao == null) {
-            try {
-                conexao = DriverManager.getConnection(URL, USER, PASSWORD);
-                System.out.println("Conexão estabelecida com sucesso!");
-            } catch (SQLException e) {
-                System.err.println("Erro ao conectar ao banco: " + e.getMessage());
-                throw new RuntimeException("Erro na conexão com o banco", e);
+        try {
+            if (connection == null || connection.isClosed()) {
+                String url = "jdbc:h2:./database/barbearia;DB_CLOSE_DELAY=-1";
+                String user = "sa";
+                String password = "";
+
+                connection = DriverManager.getConnection(url, user, password);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao conectar ao banco de dados: " + e.getMessage());
         }
-        return conexao;
+        return connection;
     }
 
     public static void fecharConexao() {
-        if (conexao != null) {
-            try {
-                conexao.close();
-                conexao = null;
-                System.out.println("Conexão fechada.");
-            } catch (SQLException e) {
-                System.err.println("Erro ao fechar conexão: " + e.getMessage());
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

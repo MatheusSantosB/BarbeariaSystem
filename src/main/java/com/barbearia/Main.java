@@ -30,7 +30,7 @@ public class Main extends Application {
 
             // Configurar o palco (janela)
             primaryStage.setTitle("Barbearia Style - Sistema de Gerenciamento");
-            primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/com/barbearia/view/images/barber-icon.png")));
+          //  primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/com/barbearia/view/images/barber-icon.png")));
             primaryStage.setScene(scene);
             primaryStage.setMinWidth(900);
             primaryStage.setMinHeight(600);
